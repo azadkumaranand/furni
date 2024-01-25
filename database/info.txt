@@ -1,0 +1,13 @@
+database => ek place hota hai jhan pe hum data(information) store krte h
+
+Most popular database with php is MySQL
+
+=> MySQL is a database system used on the web application
+=> MySQL is run on the server
+=> free, easy to use, fast
+
+=> data(information) MySQL database me tables ke form me store hota h
+
+=>query is a question or a request
+
+=>you can connect php to you mysql database

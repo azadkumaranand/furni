@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["name"])) {
         $name_err = "please enter your name *";
     } else {
-        $name_r = "/^[a-zA-Z]+/";
+        $name_r = "/^[a-zA-Z]{20}+/";
         if (!preg_match($name_r, $_POST["name"])) {
             $name_err = " enter a valid name";
         }
@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["phone"])) {
         $phone_err = "please enter your phone *";
     } else {
-        $phone_r = "^[0-9]{10}^";
+        $phone_r = "^[0-9]{10}";
         if (!preg_match($phone_r, $_POST["phone"])) {
             $_err = " enter a valid number";
         }
@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // echo print_r($_FILES["file"]);
     // echo "<pre>";
 
-    $folder = "imagess/";
+    $folder = "profilephoto/";
     $path = $folder . $_FILES["file"]["name"];
     $temp = $_FILES["file"]["tmp_name"];
 
