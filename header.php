@@ -1,3 +1,24 @@
+<?php
+
+
+echo $_SERVER['SCRIPT_NAME'];
+ECHO "<br>";
+
+//basename ke madad se last wala file nikalenge
+
+$current_file = basename($_SERVER['SCRIPT_NAME']);
+
+echo "you file path: ";
+var_dump(basename('C:\xampp1\htdocs\furni'));
+echo "<br>";
+
+var_dump($current_file);
+
+$is_index = $current_file == 'index.php';
+// var_dump($is_true);
+if($is_index){echo "nav-item active";}
+?>
+
 <!-- Start Header/Navigation -->
 <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
 
@@ -10,14 +31,14 @@
 
     <div class="collapse navbar-collapse" id="navbarsFurni">
         <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li class="nav-item active">
-                <a class="nav-link" href="/">Home</a>
+            <li class="<?php echo ($is_index?'active nav-item':'nav-item' )?>">
+                <a class="nav-link" href="index.php">Home</a>
             </li>
-            <li><a class="nav-link" href="shop.php">Shop</a></li>
-            <li><a class="nav-link" href="about.php">About us</a></li>
-            <li><a class="nav-link" href="services.php">Services</a></li>
-            <li><a class="nav-link" href="blog.php">Blog</a></li>
-            <li><a class="nav-link" href="contact.php">Contact us</a></li>
+            <li class="<?php echo ($current_file == 'shop.php'?'active nav-item':'' )?>" ><a class="nav-link" href="shop.php">Shop</a></li>
+            <li class="<?php echo ($current_file == 'about.php'?'nav-item active':'' )?>" ><a class="nav-link" href="about.php">About us</a></li>
+            <li class="<?php echo ($current_file == 'service.php'?'nav-item active':'' )?>" ><a class="nav-link" href="services.php">Services</a></li>
+            <li class="<?php echo ($current_file == 'blog.php'?'nav-item active':'nav-item' )?>" ><a class="nav-link" href="blog.php">Blog</a></li>
+            <li class="<?php echo ($current_file == 'contact.php'?'nav-item active':'nav-item' )?>" ><a class="nav-link" href="contact.php">Contact us</a></li>
         </ul>
 
         <ul class="d-flex  mb-md-0" style="list-style: none;">
