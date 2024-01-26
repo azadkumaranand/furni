@@ -1,3 +1,9 @@
+<?php
+session_start();
+require "database/connection.php";
+
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -21,31 +27,44 @@
 <body>
     <div class="mean">
         <?php
-        $name_err = "";
+        $email_err = "";
         $password_err = "";
 
-        echo $name_err;
+        echo $email_err;
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-            if (empty($_POST["name"])) {
-                $name_err = "please enter your user name *";
-            } else {
-                $name_r = "/^[a-zA-Z]+/";
-                if (!preg_match($name_r, $_POST["name"])) {
-                    $name_err = "only for latter";
-                }
+            $email = $_POST["email"];
+            $pass = $_POST["password"];
+            if (empty($email)) {
+                $email_err = "please enter your email *";
             }
 
-            if (empty($_POST["password"])) {
+            if (empty($pass)) {
                 $password_err = "please enter your password *";
             }
 
-            echo $_POST["name"] . "" . "<br>";
-            echo $_POST["password"] . "" . "<br>";
+            echo $email . "" . "<br>";
+            echo $pass . "" . "<br>";
 
-
-
+            if(empty($email_err) && empty($password_err)){
+                $sql = "SELECT name, email, phone, image_url, password FROM users WHERE email = '$email'";
+                $result = $conn->query($sql);
+                // print_r($result);
+                if($result->num_rows > 0){
+                    $row = $result->fetch_assoc();
+                    if(password_verify($pass, $row['password'])){
+                        $_SESSION['user_name'] = $row['name'];
+                        $_SESSION['user_email'] = $row['email'];
+                        $_SESSION['user_phone'] = $row['name'];
+                        $_SESSION['profile_img'] = $row['image_url'];
+                        header("Location: index.php");
+                    }else{
+                        echo "oops your password is wrong";
+                    }
+                }
+            }
         }
+
+        
 
 
         ?>
@@ -54,20 +73,20 @@
 
             <div class="container">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">User name</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="enter your user name"
-                        name="name">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="enter your email"
+                        name="email">
                 </div>
                 <p class=text-danger>
                     <?php
-                    echo $name_err;
+                    echo $email_err;
 
                     ?>
      </p>
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">password</label>
-                    <input type="password" class="form-control" id="exampleInputEmail1"
-                        placeholder="enter your password" name="password" aria-describedby="emailHelp">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="text" class="form-control" id="password"
+                        placeholder="enter your password" name="password">
                 </div>
                 <p class=text-danger>
                     <?php

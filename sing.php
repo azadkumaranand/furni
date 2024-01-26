@@ -5,7 +5,6 @@ $name_err = "";
 $email_err = "";
 $phone_err = "";
 $password_err = "";
-$name_reg = "";
 
 echo $name_err;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -13,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["name"])) {
         $name_err = "please enter your name *";
     } else {
-        $name_r = "/^[a-zA-Z]{20}+/";
+        $name_r = "/^[a-zA-Z]+/";
         if (!preg_match($name_r, $_POST["name"])) {
             $name_err = " enter a valid name";
         }
@@ -39,6 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["message"])) {
         $message_err = "please enter your message *";
     }
+
     if (empty($_POST["password"])) {
         $password_err = "please enter your password *";
     }
@@ -59,18 +59,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
-    $pass = $_POST['password'];
+    $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $imgUrl = $path;
-
-    echo var_dump($name) . "" . "<br>";
-    echo var_dump($email) . "" . "<br>";
-    echo var_dump($phone) . "" . "<br>";
-    echo var_dump($pass) . "" . "<br>";
-    echo $imgUrl . "" . "<br>";
 
     $sql = "INSERT INTO users (name, email, phone, password, image_url) VALUES ('$name', '$email', '$phone', '$pass', '$imgUrl')";
     
-    if(empty($name_err) && empty($email_err) && empty($phone_err)){
+    if(empty($name_err) && empty($email_err) && empty($phone_err) && empty($password_err)){
         if($conn->query($sql)){
             echo "user created";
         }else{
@@ -104,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="mean">
         <!--<img src="http://localhost/furni/profilephoto/jai-shri-krishna-krishna-janmashtami-design_557703-5.avif" alt="">-->
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" id="signup_form">
             <div class="container">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
@@ -113,7 +107,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <p class=text-danger>
                     <?php
                     echo $name_err;
-                    echo $name_reg;
                     ?>
                 </p>
                 <div class="mb-3">
@@ -143,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="mb-3">
                     <label for="pass" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="pass"
+                    <input type="text" class="form-control" id="pass"
                         placeholder="enter your password" name="password" aria-describedby="emailHelp">
                 </div>
                 <p class=text-danger>
@@ -160,6 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
+    
 </body>
 
 </html>
