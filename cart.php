@@ -82,7 +82,6 @@
                                 <button class="btn btn-outline-black increase" type="button">&plus;</button>
                               </div>
                             </div>
-        
                           </td>
                           <td>$49.00</td>
                           <td><a href="#" class="btn btn-black btn-sm">X</a></td>
