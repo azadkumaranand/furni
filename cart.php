@@ -1,3 +1,4 @@
+
 <!-- /*
 * Bootstrap 5
 * Template Name: Furni
@@ -5,6 +6,9 @@
 * Template URI: https://untree.co/
 * License: https://creativecommons.org/licenses/by/3.0/
 */ -->
+
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -27,6 +31,24 @@
 	<body>
 
 	<?php include 'header.php' ?>
+
+  <?php
+    include "database/connection.php";
+    if($_SERVER['REQUEST_METHOD']=="POST"){
+      $product_id = $_POST['product'];
+      echo $product_id;
+      $sql_query = "SELECT * FROM products WHERE product_id = '$product_id'";
+      $result = $conn->query($sql_query);
+
+      $_SESSION["product_$product_id"] = $result->fetch_assoc();
+      // echo "hell";
+      echo "<pre>";
+      print_r($_SESSION['product_3']);
+      echo "</pre>";
+    }
+
+    ?>
+
 
 		<!-- Start Hero Section -->
 			<div class="hero">
@@ -64,6 +86,7 @@
                         </tr>
                       </thead>
                       <tbody>
+                        <?php ?>
                         <tr>
                           <td class="product-thumbnail">
                             <img src="images/product-1.png" alt="Image" class="img-fluid">
@@ -82,30 +105,6 @@
                                 <button class="btn btn-outline-black increase" type="button">&plus;</button>
                               </div>
                             </div>
-                          </td>
-                          <td>$49.00</td>
-                          <td><a href="#" class="btn btn-black btn-sm">X</a></td>
-                        </tr>
-        
-                        <tr>
-                          <td class="product-thumbnail">
-                            <img src="images/product-2.png" alt="Image" class="img-fluid">
-                          </td>
-                          <td class="product-name">
-                            <h2 class="h5 text-black">Product 2</h2>
-                          </td>
-                          <td>$49.00</td>
-                          <td>
-                            <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;">
-                              <div class="input-group-prepend">
-                                <button class="btn btn-outline-black decrease" type="button">&minus;</button>
-                              </div>
-                              <input type="text" class="form-control text-center quantity-amount" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                              <div class="input-group-append">
-                                <button class="btn btn-outline-black increase" type="button">&plus;</button>
-                              </div>
-                            </div>
-        
                           </td>
                           <td>$49.00</td>
                           <td><a href="#" class="btn btn-black btn-sm">X</a></td>

@@ -86,7 +86,12 @@ $result = $conn->query($sql);
 							<strong class="product-price">$<?php echo $row['product_price']; ?></strong>
 
 							<span class="icon-cross">
-								<img src="images/cross.svg" class="img-fluid">
+								<form action="cart.php" method="post">
+									<input type="hidden" name="product" value="<?php echo $row['product_id'] ?>">
+									<button type="submit">
+										<img src="images/cross.svg" class="img-fluid">
+									</button>
+								</form>
 							</span>
 						</a>
 					</div> 
