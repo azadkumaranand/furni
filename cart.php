@@ -34,19 +34,19 @@
 
   <?php
     include "database/connection.php";
+    // $_SESSION["product"][] = [];
     if($_SERVER['REQUEST_METHOD']=="POST"){
       $product_id = $_POST['product'];
       echo $product_id;
       $sql_query = "SELECT * FROM products WHERE product_id = '$product_id'";
       $result = $conn->query($sql_query);
 
-      $_SESSION["product_$product_id"] = $result->fetch_assoc();
+      $_SESSION["product"][] = $result->fetch_assoc();
+      // $_SESSION["$product_id.quantity"] = $_SESSION["$product_id.quantity"]++;
       // echo "hell";
-      echo "<pre>";
-      print_r($_SESSION['product_3']);
-      echo "</pre>";
+      
+      $cart_length = count($_SESSION["product"]);
     }
-
     ?>
 
 
@@ -86,15 +86,15 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <?php ?>
+                        <?php for($i=0; $i<count($_SESSION['product']); $i++){ ?>
                         <tr>
                           <td class="product-thumbnail">
                             <img src="images/product-1.png" alt="Image" class="img-fluid">
                           </td>
                           <td class="product-name">
-                            <h2 class="h5 text-black">Product 1</h2>
+                            <h2 class="h5 text-black"><?php echo $_SESSION["product"][$i]['product_name']; ?></h2>
                           </td>
-                          <td>$49.00</td>
+                          <td>$<?php echo $_SESSION["product"][$i]['product_price']; ?></td>
                           <td>
                             <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;">
                               <div class="input-group-prepend">
@@ -109,6 +109,13 @@
                           <td>$49.00</td>
                           <td><a href="#" class="btn btn-black btn-sm">X</a></td>
                         </tr>
+                        <?php } ?>
+                        <?php
+                          echo "<pre>";
+                          print_r($_SESSION["product"]);
+                          echo "</pre>";
+                          echo $_SESSION["product"][0]['product_name'];
+                        ?>
                       </tbody>
                     </table>
                   </div>
