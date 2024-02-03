@@ -39,14 +39,28 @@
       $product_id = $_POST['product'];
       echo $product_id;
       $sql_query = "SELECT * FROM products WHERE product_id = '$product_id'";
-      $result = $conn->query($sql_query);
+      $product_already_exist = false;
 
-      $_SESSION["product"][] = $result->fetch_assoc();
+      for ($i=0; $i < count($_SESSION["product"]); $i++) { 
+        if($_SESSION["product"][$i]['product_id']==$product_id){
+          $_SESSION["quantity".$product_id] = ++$_SESSION["quantity".$product_id];
+          $product_already_exist = true;
+          break;
+        }
+      }
+
+      if(!$product_already_exist){
+        $result = $conn->query($sql_query);
+        $_SESSION["product"][] = $result->fetch_assoc();
+        $_SESSION["quantity".$product_id] = 1;
+      }
+
       // $_SESSION["$product_id.quantity"] = $_SESSION["$product_id.quantity"]++;
       // echo "hell";
       
       $cart_length = count($_SESSION["product"]);
     }
+    // array_splice($_SESSION["product"], 0, count($_SESSION["product"]));
     ?>
 
 
@@ -100,13 +114,13 @@
                               <div class="input-group-prepend">
                                 <button class="btn btn-outline-black decrease" type="button">&minus;</button>
                               </div>
-                              <input type="text" class="form-control text-center quantity-amount" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                              <input type="text" class="form-control text-center quantity-amount" value="<?php echo $_SESSION["quantity".$_SESSION["product"][$i]['product_id']]; ?>" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
                               <div class="input-group-append">
                                 <button class="btn btn-outline-black increase" type="button">&plus;</button>
                               </div>
                             </div>
                           </td>
-                          <td>$49.00</td>
+                          <td>$<?php echo($_SESSION["quantity".$_SESSION["product"][$i]['product_id']]*$_SESSION["product"][$i]['product_price']); ?></td>
                           <td><a href="#" class="btn btn-black btn-sm">X</a></td>
                         </tr>
                         <?php } ?>
