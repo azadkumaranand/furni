@@ -37,20 +37,23 @@
     // $_SESSION["product"][] = [];
     if($_SERVER['REQUEST_METHOD']=="POST"){
       $product_id = $_POST['product'];
-      echo $product_id;
+      // echo $product_id;
       $sql_query = "SELECT * FROM products WHERE product_id = '$product_id'";
       $product_already_exist = false;
 
       for ($i=0; $i < count($_SESSION["product"]); $i++) { 
         if($_SESSION["product"][$i]['product_id']==$product_id){
-          $_SESSION["quantity".$product_id] = ++$_SESSION["quantity".$product_id];
+          // $_SESSION["quantity".$product_id] = ++$_SESSION["quantity".$product_id];
+          // $_SESSION["quantity".$product_id] = $_SESSION["quantity".$product_id]+1;
+          $_SESSION["quantity".$product_id] += 1;
+          
           $product_already_exist = true;
           break;
         }
       }
 
       if(!$product_already_exist){
-        $result = $conn->query($sql_query);
+        $result = $conn->query($sql_query);//execute your query
         $_SESSION["product"][] = $result->fetch_assoc();
         $_SESSION["quantity".$product_id] = 1;
       }
@@ -103,7 +106,7 @@
                         <?php for($i=0; $i<count($_SESSION['product']); $i++){ ?>
                         <tr>
                           <td class="product-thumbnail">
-                            <img src="images/product-1.png" alt="Image" class="img-fluid">
+                            <img src="<?php echo (!empty($_SESSION["product"][$i]['image_url'])?$_SESSION["product"][$i]['image_url']:'images/product-2.png') ?>" alt="Image" class="img-fluid">
                           </td>
                           <td class="product-name">
                             <h2 class="h5 text-black"><?php echo $_SESSION["product"][$i]['product_name']; ?></h2>
@@ -125,10 +128,10 @@
                         </tr>
                         <?php } ?>
                         <?php
-                          echo "<pre>";
-                          print_r($_SESSION["product"]);
-                          echo "</pre>";
-                          echo $_SESSION["product"][0]['product_name'];
+                          // echo "<pre>";
+                          // print_r($_SESSION["product"]);
+                          // echo "</pre>";
+                          // echo $_SESSION["product"][0]['product_name'];
                         ?>
                       </tbody>
                     </table>

@@ -81,7 +81,7 @@ $result = $conn->query($sql);
 					<!-- Start Column 2 -->
 					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
 						<a class="product-item" href="cart.php">
-							<img src="images/product-1.png" class="img-fluid product-thumbnail">
+							<img src="<?php echo $row['image_url']; ?>" class="img-fluid product-thumbnail">
 							<h3 class="product-title"><?php echo $row['product_name']; ?></h3>
 							<strong class="product-price">$<?php echo $row['product_price']; ?></strong>
 

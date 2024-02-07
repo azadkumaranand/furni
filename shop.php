@@ -71,7 +71,7 @@ $result = $conn->query($sql);
 		      		<!-- Start Column 1 -->
 					<div class="col-12 col-md-4 col-lg-3 mb-5">
 						<a class="product-item" href="#">
-							<img src="images/product-3.png" class="img-fluid product-thumbnail">
+							<img src="<?php echo (!empty($row['image_url'])?$row['image_url']:'images/product-3.png') ?>" id="<?php echo isset($row['image_url'])?"true":"false"?>" class="img-fluid product-thumbnail">
 							<h3 class="product-title"><?php echo $row['product_name']; ?></h3>
 							<strong class="product-price">$<?php echo $row['product_price']; ?></strong>
 
