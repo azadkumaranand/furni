@@ -103,7 +103,11 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <?php for($i=0; $i<count($_SESSION['product']); $i++){ ?>
+                        <?php 
+                        $sum = 0;
+                        for($i=0; $i<count($_SESSION['product']); $i++){ 
+                          $sum = $sum + $_SESSION["quantity".$_SESSION["product"][$i]['product_id']]*$_SESSION["product"][$i]['product_price']
+                          ?>
                         <tr>
                           <td class="product-thumbnail">
                             <img src="<?php echo (!empty($_SESSION["product"][$i]['image_url'])?$_SESSION["product"][$i]['image_url']:'images/product-2.png') ?>" alt="Image" class="img-fluid">
@@ -175,7 +179,7 @@
                           <span class="text-black">Subtotal</span>
                         </div>
                         <div class="col-md-6 text-right">
-                          <strong class="text-black">$230.00</strong>
+                          <strong class="text-black">$<?php echo $sum; ?></strong>
                         </div>
                       </div>
                       <div class="row mb-5">
@@ -183,13 +187,13 @@
                           <span class="text-black">Total</span>
                         </div>
                         <div class="col-md-6 text-right">
-                          <strong class="text-black">$230.00</strong>
+                          <strong class="text-black">$<?php echo $sum; ?></strong>
                         </div>
                       </div>
         
                       <div class="row">
                         <div class="col-md-12">
-                          <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='checkout.html'">Proceed To Checkout</button>
+                          <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='checkout.php'">Proceed To Checkout</button>
                         </div>
                       </div>
                     </div>

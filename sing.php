@@ -61,8 +61,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone = $_POST['phone'];
     $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $imgUrl = $path;
+    $user_type = $_POST['user_type'];
 
-    $sql = "INSERT INTO users (name, email, phone, password, image_url) VALUES ('$name', '$email', '$phone', '$pass', '$imgUrl')";
+    $sql = "INSERT INTO users (name, email, phone, password, image_url, user_type) VALUES ('$name', '$email', '$phone', '$pass', '$imgUrl', '$user_type')";
     
     if(empty($name_err) && empty($email_err) && empty($phone_err) && empty($password_err)){
         if($conn->query($sql)){
@@ -144,7 +145,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     echo $password_err;
                     ?>
                 </p>
-
+                <div class="mb-3">
+                    <label for="name" class="form-label">Choose</label><br>
+                    <input type="radio" name="user_type" value="vender">&nbsp;Vender &nbsp;&nbsp;
+                    <input type="radio" name="user_type" value="user">&nbsp;User
+                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>

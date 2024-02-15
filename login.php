@@ -46,7 +46,7 @@ require "database/connection.php";
             echo $pass . "" . "<br>";
 
             if(empty($email_err) && empty($password_err)){
-                $sql = "SELECT name, email, phone, image_url, password FROM users WHERE email = '$email'";
+                $sql = "SELECT * FROM users WHERE email = '$email'";
                 $result = $conn->query($sql);
                 // print_r($result);
                 if($result->num_rows > 0){
@@ -56,6 +56,7 @@ require "database/connection.php";
                         $_SESSION['user_email'] = $row['email'];
                         $_SESSION['user_phone'] = $row['name'];
                         $_SESSION['profile_img'] = $row['image_url'];
+                        $_SESSION['user_type'] = $row['user_type'];
                         header("Location: index.php");
                     }else{
                         echo "oops your password is wrong";

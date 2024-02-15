@@ -250,21 +250,25 @@
 		                    <th>Total</th>
 		                  </thead>
 		                  <tbody>
+							<?php //print_r($_SESSION['product']) ?>
+							
+							<?php
+							$sum = 0;
+							 for($i=0; $i<count($_SESSION['product']); $i++){
+								$sum += $_SESSION["quantity".$_SESSION['product'][$i]['product_id']]*$_SESSION['product'][$i]['product_price'];
+								?>
 		                    <tr>
-		                      <td>Top Up T-Shirt <strong class="mx-2">x</strong> 1</td>
-		                      <td>$250.00</td>
+		                      <td><?php echo $_SESSION['product'][$i]['product_name'] ?><strong class="mx-2">x</strong><?php echo $_SESSION["quantity".$_SESSION['product'][$i]['product_id']] ?></td>
+		                      <td>$<?php echo $_SESSION["quantity".$_SESSION['product'][$i]['product_id']]*$_SESSION['product'][$i]['product_price'] ?></td>
 		                    </tr>
-		                    <tr>
-		                      <td>Polo Shirt <strong class="mx-2">x</strong>   1</td>
-		                      <td>$100.00</td>
-		                    </tr>
+							<?php } ?>
 		                    <tr>
 		                      <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-		                      <td class="text-black">$350.00</td>
+		                      <td class="text-black">$<?php echo $sum ?></td>
 		                    </tr>
 		                    <tr>
 		                      <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-		                      <td class="text-black font-weight-bold"><strong>$350.00</strong></td>
+		                      <td class="text-black font-weight-bold"><strong>$<?php echo $sum ?></strong></td>
 		                    </tr>
 		                  </tbody>
 		                </table>
@@ -300,7 +304,7 @@
 		                </div>
 
 		                <div class="form-group">
-		                  <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='thankyou.html'">Place Order</button>
+		                  <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='thankyou.php'">Place Order</button>
 		                </div>
 
 		              </div>
@@ -311,7 +315,7 @@
 		      </div>
 		      <!-- </form> -->
 		    </div>
-		  </div>
+		</div>
 
 		<!-- Start Footer Section -->
 		<footer class="footer-section">
