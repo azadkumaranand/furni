@@ -52,9 +52,10 @@ require "database/connection.php";
                 if($result->num_rows > 0){
                     $row = $result->fetch_assoc();
                     if(password_verify($pass, $row['password'])){
+                        $_SESSION['user_id'] = $row['id'];
                         $_SESSION['user_name'] = $row['name'];
                         $_SESSION['user_email'] = $row['email'];
-                        $_SESSION['user_phone'] = $row['name'];
+                        $_SESSION['user_phone'] = $row['phone'];
                         $_SESSION['profile_img'] = $row['image_url'];
                         $_SESSION['user_type'] = $row['user_type'];
                         header("Location: index.php");
