@@ -1,5 +1,6 @@
 <?php
 session_start();
+require "database/connection.php";
 /*
 echo $_SERVER['SCRIPT_NAME'];
 ECHO "<br>";
@@ -18,6 +19,13 @@ var_dump($current_file);
 
 
 // var_dump($is_true);
+
+//query for render listed product 
+$user_id = $_SESSION['user_id'];
+
+$sql = "SELECT product_id, product_name, product_price FROM products WHERE user_id = '$user_id'";
+
+$result = $conn->query($sql);
 
 ?>
 <style>
@@ -80,7 +88,7 @@ var_dump($current_file);
               <?php }else{ ?>
             <li style="padding: 0px 5px"><a href="login.php"><button class="loginbtn" type="button">Login</button></a></li>
 
-            <li style="padding: 0px 5px"><a href="sign.php"><button class="signbtn" type="button">Singin</button></a></li>
+            <li style="padding: 0px 5px"><a href="sing.php"><button class="signbtn" type="button">Singin</button></a></li>
             <?php } ?>
         </div>
     </div>
@@ -109,14 +117,45 @@ var_dump($current_file);
            <p>Contact No: <?php echo $_SESSION['user_phone'] ?></p>
         </div>
         <?php 
-    if(isset($_SESSION['user_type'])){?>
+    if(isset($_SESSION['user_type']) && $_SESSION['user_type'] == "vender"){?>
         <div class="dropdown mt-3">
             <button class="btn" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 Create Product
             </button>
         </div>
         <?php } ?>
-
+      <div class="listed">
+        <h3>Listed Products</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="product-name">Product</th>
+              <th class="product-price">Price</th>
+              <th>Update</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php 
+            $num_row = $result->num_rows;
+            while($num_row>0){
+              $row = $result->fetch_assoc();
+              $num_row--;
+            ?>
+            <tr>
+              <td><?php echo $row['product_name'] ?></td>
+              <td><?php echo $row['product_price'] ?></td>
+              <td>
+                <form action="removepd.php" method='post'>
+                  <input type="hidden" value="<?php echo $row['product_id']; ?>" name="pd_id">
+                  <button type="submit">Rmove</button>
+                </form>
+                <button>Stock</button>
+              </td>
+            </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      </div>
     </div>
 </div>
 
@@ -141,6 +180,7 @@ var_dump($current_file);
           <div class="mb-3">
             <label for="price" class="form-label">Product Price</label>
             <input type="number" class="form-control" name="price" id="price">
+            <input type="hidden" name="stock" value="1">
           </div>
           <div class="mb-3">
             <label for="desc" class="form-label">Description</label>

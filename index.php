@@ -10,9 +10,6 @@
 
 require "database/connection.php";
 
-$sql = "SELECT * FROM products LIMIT 3";
-
-$result = $conn->query($sql);
 // print_r($result);
 
 ?>
@@ -53,7 +50,7 @@ $result = $conn->query($sql);
 						</div>
 						<div class="col-lg-7">
 							<div class="hero-img-wrap">
-								<img src="images/couch.png" class="img-fluid">
+								<img src="images/couch.png"class="img-fluid">
 							</div>
 						</div>
 					</div>
@@ -74,14 +71,20 @@ $result = $conn->query($sql);
 					</div> 
 					<!-- End Column 1 -->
 					<?php 
+					
+					$sql = "SELECT * FROM products ORDER BY product_id DESC LIMIT 3";
+
+					$result = $conn->query($sql);
+					
 					$no_rows = $result->num_rows;
+					print_r($result);
 					while($no_rows > 0){ 
 						$row = $result->fetch_assoc();
 						?>
 					<!-- Start Column 2 -->
 					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
 						<a class="product-item" href="cart.php">
-							<img src="<?php echo $row['image_url']; ?>" class="img-fluid product-thumbnail">
+							<img src="<?php echo $row['image_url']; ?>" style="width: 100%; height: 300px;" class="img-fluid product-thumbnail">
 							<h3 class="product-title"><?php echo $row['product_name']; ?></h3>
 							<strong class="product-price">$<?php echo $row['product_price']; ?></strong>
 
