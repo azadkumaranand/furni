@@ -10,11 +10,6 @@
 
 require "database/connection.php";
 
-$sql = "SELECT * FROM products LIMIT 12";
-
-$result = $conn->query($sql);
-// print_r($result);
-
 ?>
 
 <!doctype html>
@@ -65,13 +60,16 @@ $result = $conn->query($sql);
 		    <div class="container">
 		      	<div class="row">
 				<?php 
+				$sql = "SELECT * FROM products ORDER BY product_id DESC LIMIT 12";
+				$result = $conn->query($sql);
+
 				$no_rows = $result->num_rows;
 				while($no_rows > 0){ 
 					$row = $result->fetch_assoc();?>
 		      		<!-- Start Column 1 -->
 					<div class="col-12 col-md-4 col-lg-3 mb-5">
-						<a class="product-item" href="#">
-							<img src="<?php echo (!empty($row['image_url'])?$row['image_url']:'images/product-3.png') ?>" id="<?php echo isset($row['image_url'])?"true":"false"?>" class="img-fluid product-thumbnail">
+						<a class="product-item" href="pddetails.php?id=<?php echo $row['product_id'] ?>">
+							<img src="<?php echo (!empty($row['image_url'])?$row['image_url']:'images/product-3.png') ?>" style="width: 100%; height: 300px;" id="<?php echo isset($row['image_url'])?"true":"false"?>" class="img-fluid product-thumbnail">
 							<h3 class="product-title"><?php echo $row['product_name']; ?></h3>
 							<strong class="product-price">$<?php echo $row['product_price']; ?></strong>
 

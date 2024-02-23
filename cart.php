@@ -34,6 +34,10 @@
 
   <?php
     include "database/connection.php";
+    // array_splice($_SESSION['product'], 0, count($_SESSION['product']));
+
+    // die(); => this function will stop all codes after this line
+
     // $_SESSION["product"][] = [];
     if($_SERVER['REQUEST_METHOD']=="POST"){
       $product_id = $_POST['product'];
@@ -41,7 +45,7 @@
       $sql_query = "SELECT * FROM products WHERE product_id = '$product_id'";
       $product_already_exist = false;
 
-      for ($i=0; $i < count($_SESSION["product"]); $i++) { 
+      for ($i=1; $i < count($_SESSION["product"]); $i++) { 
         if($_SESSION["product"][$i]['product_id']==$product_id){
           // $_SESSION["quantity".$product_id] = ++$_SESSION["quantity".$product_id];
           // $_SESSION["quantity".$product_id] = $_SESSION["quantity".$product_id]+1;
@@ -57,6 +61,8 @@
         $_SESSION["product"][] = $result->fetch_assoc();
         $_SESSION["quantity".$product_id] = 1;
       }
+      // unset($_SESSION["product"]);
+      // print_r($_SESSION["product"]);
 
       // $_SESSION["$product_id.quantity"] = $_SESSION["$product_id.quantity"]++;
       // echo "hell";
@@ -67,22 +73,7 @@
     ?>
 
 
-		<!-- Start Hero Section -->
-			<div class="hero">
-				<div class="container">
-					<div class="row justify-content-between">
-						<div class="col-lg-5">
-							<div class="intro-excerpt">
-								<h1>Cart</h1>
-							</div>
-						</div>
-						<div class="col-lg-7">
-							
-						</div>
-					</div>
-				</div>
-			</div>
-		<!-- End Hero Section -->
+		
 
 		
 
@@ -105,7 +96,7 @@
                       <tbody>
                         <?php 
                         $sum = 0;
-                        for($i=0; $i<count($_SESSION['product']); $i++){ 
+                        for($i=1; $i<count($_SESSION['product']); $i++){ 
                           $sum = $sum + $_SESSION["quantity".$_SESSION["product"][$i]['product_id']]*$_SESSION["product"][$i]['product_price']
                           ?>
                         <tr>
@@ -128,7 +119,7 @@
                             </div>
                           </td>
                           <td>$<?php echo($_SESSION["quantity".$_SESSION["product"][$i]['product_id']]*$_SESSION["product"][$i]['product_price']); ?></td>
-                          <td><a href="#" class="btn btn-black btn-sm">X</a></td>
+                          <td><a href="removeaddtocartitem.php?index=<?php echo $i; ?>" class="btn btn-black btn-sm">X</a></td>
                         </tr>
                         <?php } ?>
                         <?php
